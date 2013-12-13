@@ -1,0 +1,12 @@
+
+
+<h1>Add Snippet</h1>
+
+<form action="/polls/snippets/save/" method="post">
+{% csrf_token %}
+Title<input type="text" name="title"/><br>
+Url<input type="text" name="url"/><br>
+Text<input type="text" name="text"/><br>
+Image Url<input type="text" name="image"/><br>
+<input type="submit" value="Add" />
+</form>

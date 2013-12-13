@@ -1,0 +1,49 @@
+.c1{color: #C6203A}
+
+html{
+    background-color: #262726;
+    font-family: 'Alegreya Sans', sans-serif;
+}
+
+p {
+    color: white;
+}
+
+a {
+    color: #C6203A;
+    text-decoration: none;
+}
+
+a:hover h3{
+    text-decoration: underline;
+}
+
+h3{
+    padding: 0px;
+    margin: 0px;
+}
+
+.snippetbox{
+    width: 250px;
+    display: inline-block;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid grey;
+    background-color: #777777;
+    word-wrap:break-word;
+    text-align:justify;
+    vertical-align: top;
+    box-shadow: 3px 3px 10px #000
+}
+
+.snippetimage{
+    width: 100%;
+}
+
+#header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 30px;
+
+}

@@ -1,0 +1,9 @@
+<a href="{{ snippet.url }}"><h1>{{ snippet.title }}</h1></a> 
+
+<h5>({{ snippet.date_added }})</h5>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% if snippet.image != 'none'%}<p><img src='{{ snippet.image }}'></p>{% endif %}
+
+{{ snippet.text }}
