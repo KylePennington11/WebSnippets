@@ -1,0 +1,114 @@
+.c1{color: #C6203A}
+
+html{
+    background-color: #262726;
+    color: white;
+    font-family: 'Alegreya Sans', sans-serif;
+}
+
+p, h1, h2, h3, form, button{border:0; margin:0; padding:0;}
+
+a{
+    color: white;
+    text-decoration: none;
+}
+
+a h3{
+    color: red;
+}
+
+a:hover h3{
+    text-decoration: underline;
+}
+
+.snippetbox{
+    width: 250px;
+    display: inline-block;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid grey;
+    background-color: #777777;
+    word-wrap:break-word;
+    text-align:justify;
+    vertical-align: top;
+    box-shadow: 3px 3px 10px #000
+}
+
+.snippetimage{
+    width: 100%;
+}
+
+#header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 30px;
+
+}
+
+
+.spacer{clear:both; height:1px;}
+/* ----------- My Form ----------- */
+.myform{
+margin:0 auto;
+width:600px;
+padding:14px;
+}
+
+/* ----------- stylized ----------- */
+#stylized{
+border:solid 2px #777777;
+background:#262726;
+}
+#stylized h1 {
+font-size:26px;
+font-weight:bold;
+margin-bottom:8px;
+}
+#stylized h2 {
+font-size:14px;
+font-weight:bold;
+margin-bottom:8px;
+}
+#stylized p{
+font-size:11px;
+color:#FFFFFF;
+margin-bottom:20px;
+border-bottom:solid 1px #777777;
+padding-bottom:10px;
+}
+#stylized label{
+display:block;
+font-weight:bold;
+text-align:right;
+width:140px;
+float:left;
+}
+#stylized .small{
+color:#FFFFFF;
+display:block;
+font-size:11px;
+font-weight:normal;
+text-align:right;
+width:140px;
+}
+#stylized input, textarea{
+float:left;
+font-size:12px;
+padding:4px 2px;
+border:solid 1px #777777;
+width:400px;
+margin:2px 0 20px 10px;
+}
+#stylized button{
+clear:both;
+margin-left:150px;
+width:125px;
+height:31px;
+background:#666666;
+text-align:center;
+line-height:31px;
+color:#FFFFFF;
+font-size:11px;
+font-weight:bold;
+}

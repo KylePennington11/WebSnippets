@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>WebSnippets</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}style.css">
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<a href="/snippets/"><h1>Back</h1></a> 
+
+<div id="stylized" class="myform">
+
+<a href="{{ snippet.url }}"><h1>{{ snippet.title }}</h1></a> 
+
+<h5>({{ snippet.date_added }})</h5>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% if snippet.image != 'none'%}<p><img src='{{ snippet.image }}'></p>{% endif %}
+
+{{ snippet.text }}
+
+
+
+<form id="form" name="form" method="post" action="/snippets/delete/">
+{% csrf_token %}
+<input type="hidden" name="id" value={{ snippet.pk }}>
+<button type="submit" value="Delete">Delete Snippet</button>
+
+<div class="spacer"></div>
+
+</form>
+</div>
+
+</body>
+</html>

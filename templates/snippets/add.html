@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WebSnippets - Add Snippet</title>
+	<link rel="stylesheet" href="{{ STATIC_URL }}style.css">
+    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans' rel='stylesheet' type='text/css'>
+</head>
+<body>
+
+<div id="stylized" class="myform">
+<form id="form" name="form" method="post" action="/snippets/save/">
+{% csrf_token %}
+
+<h1>Add Snippet</h1>
+<p>Add a new snippet to your collection</p>
+
+<label>Title
+<span class="small"></span>
+</label>
+<input type="text" name="title" id="title" />
+
+<label>Url
+<span class="small">http address</span>
+</label>
+<input type="text" name="url" id="url" />
+
+<label>Text
+<span class="small">Details</span>
+</label>
+<textarea cols="40" rows="5" name="text" id="text"></textarea>
+
+<label>Image
+<span class="small">Url to image</span>
+</label>
+<input type="text" name="image" id="image" />
+
+<button type="submit" value="Add">Add Snippet</button>
+<div class="spacer"></div>
+
+</form>
+</div>
+
+
+</body>
+</html>
+
