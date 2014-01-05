@@ -20,12 +20,22 @@ import datetime
 class Snippet(models.Model):
     def __unicode__(self):
         return self.title 
+
+    MEDIA_TYPES = (
+        ('0', 'Image'),
+        ('1', 'Gif'),
+        ('2', 'Youtube'),
+    )
+
     title = models.CharField(max_length=100, blank=True)
-    url = models.CharField(max_length=1000, blank=True)
-    text = models.CharField(max_length=1000, blank=True)
-    image = models.CharField(max_length=1000, blank=True)
+    url = models.CharField(max_length=100, blank=True)
+    text = models.TextField(max_length=1000, blank=True)
+    media = models.CharField(max_length=100, blank=True)
+    mediaType = models.CharField(max_length=1, choices=MEDIA_TYPES)
     date_added = models.DateTimeField('date added')
     last_viewed = models.DateTimeField('last viewed')
+    width = models.CharField(max_length=2, blank=True)
+    height = models.DecimalField(max_digits=5, decimal_places=0, blank=True)
 
 class Keyword(models.Model):
     keyword = models.CharField(max_length=100)

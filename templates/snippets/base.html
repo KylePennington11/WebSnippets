@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>WebSnippets{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}style.css">
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <div id="header">
+        <a class="button" href="/snippets/">Home</a>
+        <a class="button" href="/snippets/add/">Add Snippet</a>
+        <a class="button" href="/snippets/">Random</a>
+        <a class="button" href="/snippets/">Something</a>
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <div id="footer">
+        footer
+    </div>
+</body>
+</html>

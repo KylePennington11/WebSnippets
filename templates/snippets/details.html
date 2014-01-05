@@ -1,40 +1,59 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
+{% extends "snippets/base.html" %}
 
-<head>
-    <title>WebSnippets</title>
-    <link rel="stylesheet" href="{{ STATIC_URL }}style.css">
-    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans' rel='stylesheet' type='text/css'>
-</head>
+{% block content %}
 
-<body>
+<div class="detailbox">
 
-<a href="/snippets/"><h1>Back</h1></a> 
+	{% if snippet.media != "" %}
+        {% if snippet.mediaType == "0" %}
+            <img src='{{ snippet.media }}'>
+        {% else %}
+            {%if snippet.mediaType == "1" %}
+            <img src='{{ snippet.media }}'>
+            {% else %}
+                {%if snippet.mediaType == "2" %}
+                    <iframe src="http://www.youtube.com/embed/{{ snippet.media }}?html5=1&autohide=1" width="500" height="300" frameborder="0" allowfullscreen></iframe>                          
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    {% endif %}    
 
-<div id="stylized" class="myform">
+	{% if snippet.title != ''%}
+		{% if snippet.url != ''%}
+			<a href="{{ snippet.url }}"><h1>{{ snippet.title }}</h1></a> 
+		{% else %}
+			<h1>{{ snippet.title }}</h1>
+		{% endif %}
+	{% endif %}
+	
 
-<a href="{{ snippet.url }}"><h1>{{ snippet.title }}</h1></a> 
+	<h5>({{ snippet.date_added }})</h5>
 
-<h5>({{ snippet.date_added }})</h5>
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	{% if snippet.text != ''%}
+		{{ snippet.text|linebreaks }}
+	{% endif %}
+		
+</div>
+<div class="detailbuttons">
 
-{% if snippet.image != 'none'%}<p><img src='{{ snippet.image }}'></p>{% endif %}
+	<a class="detailbutton" href="/snippets/edit/{{ snippet.pk }}/">Edit</a>
 
-{{ snippet.text }}
-
-
-
+	<form class="form-invis tight ib" name="form" method="post" action="/snippets/delete/">
+		{% csrf_token %}
+		<input type="hidden" name="id" value={{ snippet.pk }}>
+		<button type="submit" value="Delete" class="detailbutton">Delete</button>		
+	</form>
+		
+</div>
+<!-- 
 <form id="form" name="form" method="post" action="/snippets/delete/">
-{% csrf_token %}
-<input type="hidden" name="id" value={{ snippet.pk }}>
-<button type="submit" value="Delete">Delete Snippet</button>
-
-<div class="spacer"></div>
+	{% csrf_token %}
+	<input type="hidden" name="id" value={{ snippet.pk }}>
+	<button type="submit" value="Delete" class="button">Delete Snippet</button>
 
 </form>
-</div>
+!-->
 
-</body>
-</html>
+{% endblock %}

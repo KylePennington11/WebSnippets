@@ -20,7 +20,8 @@ from django.contrib import admin
 # admin.site.register(Poll, PollAdmin)
 
 class SnippetAdmin(admin.ModelAdmin):
-    fields = ['title', 'url', 'text', 'image', 'date_added', 'last_viewed']
-    list_display = ('title', 'image', 'url', 'date_added')
+    fields = ['title', 'url', 'text', 'media', 'mediaType', 'date_added', 'last_viewed', 'width','height',]
+    list_display = ('pk','title', 'media', 'mediaType', 'url', 'width', 'height','date_added')
+    save_as = True
 
 admin.site.register(Snippet, SnippetAdmin)

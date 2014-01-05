@@ -1,44 +1,97 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
+{% extends "snippets/base.html" %}
 
-<head>
-    <title>WebSnippets</title>
-    <link rel="stylesheet" href="{{ STATIC_URL }}style.css">
-    <link href='http://fonts.googleapis.com/css?family=Alegreya+Sans' rel='stylesheet' type='text/css'>
-</head>
+{% block head %}
+<script type="text/javascript" src="{{ STATIC_URL }}masonry.pkgd.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}infinite-scroll.js"></script>
+{% endblock %}
 
-<body>
-<div id="header">
-<a href="/snippets/add/">Add Snippet</a>
-</div>
+{% block content %}
 
-<div style="text-align: center">
-{% if latest_snippet_list %}
-    
-    {% for snippet in latest_snippet_list %}
-    <a href="/snippets/{{ snippet.id }}/">
-    <div class="snippetbox">
-        {% if snippet.title != ''%}
-        <h3>{{ snippet.title }}</h3>
-        {% endif %}
+    {% if latest_snippet_list %}      
+        <div id="snippetcontainer">
+            {% for snippet in latest_snippet_list %}
+                <a href="/snippets/view/{{ snippet.id }}/">
 
-        {% if snippet.image != ''%}
-        <p><img src='{{ snippet.image }}' class="snippetimage"></p>
-        {% endif %}
+                    <div class="snippetbox {{ snippet.width }}">
+                        {% if snippet.media != "" %}
+                            {% if snippet.mediaType == "0" %}
+                                <img src='{{ snippet.media }}'>
+                            {% else %}
+                                {%if snippet.mediaType == "1" %}
+                                <img src='{{ snippet.media }}'>
+                                {% else %}
+                                    {%if snippet.mediaType == "2" %}
+                                        <iframe src="http://www.youtube.com/embed/{{ snippet.media }}?html5=1&autohide=1" width="520" height="310" frameborder="0" allowfullscreen></iframe>                          
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}    
 
-        {% if snippet.text != ''%}
-        <p>{{ snippet.text }}</p>
-        {% endif %}
-    </div>
-    </a>
-    {% endfor %}
-    
-{% else %}
-    <p>No snippets are available.</p>
-{% endif %}
+                        {% if snippet.title != '' or snippet.text != '' %}
+                            <div class="snippettext">
+                                {% if snippet.title != ''%}
+                                    <h3>{{ snippet.title }}</h3>
+                                {% endif %}
 
-</div>
+                                {% if snippet.text != ''%}
+                                    {{ snippet.text|linebreaks }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        
+    {% else %}
+        <p>No snippets are available.</p>
+    {% endif %}
 
-</body>
-</html>
+    <nav id="page-nav">
+        <a href="./{{ nextpage }}/"></a>
+    </nav>
+
+
+
+    <script>
+        $(function(){
+            
+            var $container = $('#snippetcontainer');
+            
+            $container.imagesLoaded(function(){
+              $container.masonry({
+                itemSelector: '.snippetbox',
+                columnWidth: 270,
+                isFitWidth: true
+              });
+            });
+            
+            $container.infinitescroll({
+              navSelector  : '#page-nav',    // selector for the paged navigation 
+              nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
+              itemSelector : '.snippetbox',     // selector for all items you'll retrieve
+              bufferPx: 500,
+              loading: {
+                  finishedMsg: 'No more pages to load.',
+                  img: 'http://i.imgur.com/6RMhx.gif'
+                }
+              },
+              // trigger Masonry as a callback
+              function( newElements ) {
+                // hide new items while they are loading
+                var $newElems = $( newElements ).css({ opacity: 0 });
+                // ensure that images load before adding to masonry layout
+                $newElems.imagesLoaded(function(){
+                  // show elems now they're ready
+                  $newElems.animate({ opacity: 1 });
+                  $container.masonry( 'appended', $newElems, true ); 
+                });
+              }
+            );
+            
+        });
+    </script>
+
+
+{% endblock %}
