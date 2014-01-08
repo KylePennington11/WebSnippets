@@ -8,38 +8,36 @@
 
 {% block content %}
 
-    {% if latest_snippet_list %}      
+    {% if snippet_list %}      
         <div id="snippetcontainer">
-            {% for snippet in latest_snippet_list %}
-                <a href="/snippets/view/{{ snippet.id }}/">
-
-                    <div class="snippetbox {{ snippet.width }}">
-                        {% if snippet.media != "" %}
-                            {% if snippet.mediaType == "0" %}
-                                <img src='{{ snippet.media }}'>
+            {% for snippet in snippet_list %}
+                <a class="snippetbox {{ snippet.width }}" href="/snippets/view/{{ snippet.id }}/">
+                    {% if snippet.media != "" %}
+                        {% if snippet.mediaType == "0" %}
+                            <img src='{{ snippet.media }}'>
+                        {% else %}
+                            {%if snippet.mediaType == "1" %}
+                            <img src='{{ snippet.media }}'>
                             {% else %}
-                                {%if snippet.mediaType == "1" %}
-                                <img src='{{ snippet.media }}'>
-                                {% else %}
-                                    {%if snippet.mediaType == "2" %}
-                                        <iframe src="http://www.youtube.com/embed/{{ snippet.media }}?html5=1&autohide=1" width="520" height="310" frameborder="0" allowfullscreen></iframe>                          
-                                    {% endif %}
+                                {%if snippet.mediaType == "2" %}
+                                    <iframe src="http://www.youtube.com/embed/{{ snippet.media }}?html5=1&autohide=1" width="520" height="310" frameborder="0" allowfullscreen></iframe>
+                                    <p>.</p>                          
                                 {% endif %}
                             {% endif %}
-                        {% endif %}    
-
-                        {% if snippet.title != '' or snippet.text != '' %}
-                            <div class="snippettext">
-                                {% if snippet.title != ''%}
-                                    <h3>{{ snippet.title }}</h3>
-                                {% endif %}
-
-                                {% if snippet.text != ''%}
-                                    {{ snippet.text|linebreaks }}
-                                {% endif %}
-                            </div>
                         {% endif %}
-                    </div>
+                    {% endif %}    
+
+                    {% if snippet.title != '' or snippet.text != '' %}
+                        <div class="snippettext">
+                            {% if snippet.title != ''%}
+                                <h3>{{ snippet.title }}</h3>
+                            {% endif %}
+
+                            {% if snippet.text != ''%}
+                                {{ snippet.text|linebreaks|truncatewords:60 }}
+                            {% endif %}
+                        </div>
+                    {% endif %}
                 </a>
             {% endfor %}
         </div>

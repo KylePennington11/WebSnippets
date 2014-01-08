@@ -1,4 +1,4 @@
-from snippets.models import Snippet,Keyword,SnippetKeywordLink
+from snippets.models import Snippet,Keyword
 from django.contrib import admin
 
 # class ChoiceInline(admin.TabularInline):
@@ -20,8 +20,9 @@ from django.contrib import admin
 # admin.site.register(Poll, PollAdmin)
 
 class SnippetAdmin(admin.ModelAdmin):
-    fields = ['title', 'url', 'text', 'media', 'mediaType', 'date_added', 'last_viewed', 'width','height',]
+    fields = ['title', 'url', 'text', 'media', 'mediaType', 'date_added', 'last_viewed', 'width','height',],['keyword']
     list_display = ('pk','title', 'media', 'mediaType', 'url', 'width', 'height','date_added')
     save_as = True
 
-admin.site.register(Snippet, SnippetAdmin)
+
+admin.site.register([Snippet, Keyword], site=SnippetAdmin)

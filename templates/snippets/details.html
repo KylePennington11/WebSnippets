@@ -34,7 +34,16 @@
 	{% if snippet.text != ''%}
 		{{ snippet.text|linebreaks }}
 	{% endif %}
-		
+
+    
+    <div class="keywords">
+    {% for keyword in snippet.keywords.all %}       
+        {{ keyword }}
+        {% if not forloop.last %} | {% endif %}     
+    {% endfor %}
+    </div>
+    
+
 </div>
 <div class="detailbuttons">
 

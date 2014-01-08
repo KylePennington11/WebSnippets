@@ -2,39 +2,50 @@ from django.shortcuts import get_object_or_404, render_to_response, render, redi
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
-from snippets.models import Snippet
+from snippets.models import Snippet, Keyword
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Count
 import datetime
 import re
-
-# def vote(request, poll_id):
-#     p = get_object_or_404(Poll, pk=poll_id)
-#     try:
-#         selected_choice = p.choice_set.get(pk=request.POST['choice'])
-#     except (KeyError, Choice.DoesNotExist):
-#         # Redisplay the poll voting form.
-#         return render_to_response('polls/detail.html', {
-#             'poll': p,
-#             'error_message': "You didn't select a choice.",
-#         }, context_instance=RequestContext(request))
-#     else:
-#         selected_choice.votes += 1
-#         selected_choice.save()
-#         # Always return an HttpResponseRedirect after successfully dealing
-#         # with POST data. This prevents data from being posted twice if a
-#         # user hits the Back button.
-#         return HttpResponseRedirect(reverse('poll_results', args=(p.id,)))
+import json
 
 def snippet(request, page):
+    keywords = getKeywords() 
     i = int(page)
     nPerPage = 15
     startpage = (i-1)*nPerPage
     endpage = i*nPerPage
-    latest_snippet_list = Snippet.objects.order_by('-date_added')[startpage:endpage]
-    context = {'latest_snippet_list': latest_snippet_list, 'nextpage': i+1}
+    snippet_list = Snippet.objects.order_by('last_viewed')[startpage:endpage]
+    context = {'keywords': keywords, 'snippet_list': snippet_list, 'nextpage': i+1}
     return render(request, 'snippets/index.html', context)
 
 def addsnippet(request):
-    return render(request, 'snippets/add.html')
+    allkeywords = getAllKeywords() 
+    keywords = getKeywords() 
+    context = {'keywords': keywords, 'allkeywords': allkeywords}
+    return render(request, 'snippets/add.html', context)
+
+def viewsnippet(request, pk):
+    s = get_object_or_404(Snippet, pk=pk)
+
+    s.last_viewed = datetime.datetime.now()
+    s.save()
+
+    keywords = getKeywords() 
+    context = {'snippet': s, 'keywords': keywords}
+    return render(request, 'snippets/details.html', context)
+
+def editsnippet(request, pk):
+    s = get_object_or_404(Snippet, pk=pk)
+    allkeywords = getAllKeywords() 
+    keywords = getKeywords()
+    print(allkeywords)
+                                                 
+          #        
+          #        .order_by('-keywords_count')
+    ikeywords = s.keywords.all()
+    context = {'snippet': s, 'keywords': keywords, 'allkeywords': allkeywords, 'ikeywords':ikeywords}
+    return render(request, 'snippets/add.html', context)
 
 def savesnippet(request, pk=0):
 
@@ -58,7 +69,23 @@ def savesnippet(request, pk=0):
         s.delete()
 
     e.save(force_insert=True)
+
+    tags = request.POST['tags']
+    if tags != '':
+        tagslist = tags.split(',')
+
+        for tag in tagslist:
+            try:
+                k = Keyword.objects.get(keyword=tag)
+            except ObjectDoesNotExist:
+                k = Keyword(keyword=tag)
+                k.save()
+
+            e.keywords.add(k)
     
+
+    e.save()
+
     return redirect('/snippets/')
 
 def deletesnippet(request):
@@ -68,7 +95,12 @@ def deletesnippet(request):
 
     return redirect('/snippets/')
 
+def query(request, query):
 
+    snippet_list = Snippet.objects.filter(keywords__keyword__exact=query)
+    keywords = getKeywords() 
+    context = {'keywords': keywords, 'snippet_list': snippet_list}
+    return render(request, 'snippets/index.html', context)
 
 # Functions
 
@@ -87,3 +119,10 @@ def determineMediaType(media):
         return {'media': matchObj.group(1), 'mediaType': '2'}
 
     return {'media': media, 'mediaType': '0'}
+
+def getAllKeywords():
+    return Keyword.objects.all().annotate(count=Count('snippet')).order_by('-count')
+
+def getKeywords(limit=20):
+    allkeywords = getAllKeywords()
+    return allkeywords[:limit]

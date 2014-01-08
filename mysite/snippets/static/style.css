@@ -14,6 +14,8 @@ a{
 
 h1{
     color: #777;
+    font-size: 1.5em;
+    line-height: 1em;
 }
 
 a h1{
@@ -39,6 +41,8 @@ iframe{
 }
 
 #content{
+    position: relative;
+    z-index:999;
 }
 
 #snippetcontainer{
@@ -170,26 +174,31 @@ iframe{
     border-radius: 0 0 6px 0;
 }
 
+.keywords {
+    font-size: 0.7em;
+    text-transform: uppercase;
+    text-align: right;
+    margin: 5px;
+}
+
 #header{
     display: block;
-    position: relative;
+    margin-left: auto;
+    margin-right: auto;
     top: 0px;
-    left: 350px;
-    width:1000px;
-    margin: 20px;
-    padding: 20px
-
+    width: 1000px;
+    padding: 20px;
 }
 
 a.button:hover{
-    background-color: #f64c3f;
+    background-color: #f64c3f !important;
     color: #fff;
 }
 
 .button{
     vertical-align: middle;
     text-align: center;
-    background-color: rgba(0, 0, 0, 0.498039);
+    background-color: rgba(0, 0, 0, 0.5);
     display: inline-block;
     width: 215px;
     height: 48px;
@@ -207,6 +216,27 @@ button.button:hover{
     color: #fff;
 }
 
+#browse:hover + #dropdownOptions{
+    display: block; 
+}
+
+#dropdownOptions:hover{
+    display: block;    
+}
+
+#dropdownOptions{
+    display: none;
+    background-color: transparent;
+    color: #777;
+    float: right;
+    position: relative;
+    z-index:1000;   
+}
+
+#dropdownOptions a.button{
+    background-color: rgba(50, 50, 50, 0.9);
+}
+
 
 /* Forms */
 
@@ -222,6 +252,12 @@ form.form-white{
 
 form.form-invis{
     padding: 0px;
+}
+
+#tags{
+    width: 80%;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .detailWidth{
@@ -301,18 +337,6 @@ button{
 .controls{
     margin-top: 20px;
 }
-
-.clearfix
-{
-    content: ".";
-    display: block;
-    clear: both;
-    visibility: hidden;
-    height: 0;
-    line-height: 0;  
-}
-
-
 
 #footer{
     font-style: italic;

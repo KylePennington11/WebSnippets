@@ -2,8 +2,14 @@
 
 {% block title %} - Add Snippet{% endblock %}
 
+{% block head %}
+<script type="text/javascript" src="{{ STATIC_URL }}autocomplete-0.3.0.js"></script>
+<link rel="stylesheet" href="{{ STATIC_URL }}autocomplete-0.3.0.css">
+
+{% endblock %}
 
 {% block content %}
+
 
 	<form class="form-invis detailWidth centered" method="post" action={% if snippet %}"/snippets/save/{{ snippet.pk }}/"{% else %}"/snippets/save/"{% endif %}>
 		{% csrf_token %}
@@ -29,7 +35,24 @@
 		        <label for="media">Media</label>
 		        <input name="media" id="media" type="text" placeholder="Url to image or YouTube video id"{% if snippet.media != '' %} value="{% if snippet.mediaType == '2' %}www.youtube.com/watch?v={% endif %}{{ snippet.media }}"{% endif %}>
 		    </div>
-		</div>
+
+            <div class="control-group">
+                <label for="tags">Tags</label>
+                <div name="tags" id="tags"></div>
+                    <script>
+                        var config = {
+                          initialValue: [{% for ikeyword in ikeywords %}['{{ikeyword}}'],{% endfor %}],
+                          lists: {
+                            keywords: {
+                              allowFreeform: true,
+                              options: [{% for keyword in allkeywords %}"{{keyword}}",{% endfor %}]
+                            }
+                          }
+                        };
+                        var widget = new AutoComplete('tags', config);
+                    </script>
+    		    </div>
+            </div>
 
 	    <div>
 	        <button type="submit" class="button rounded-bottom">{% if snippet %}Save{% else %}Add{% endif %}</button>

@@ -16,6 +16,11 @@ import datetime
 #     votes = models.IntegerField()
 #     def __unicode__(self):
 #         return self.choice
+class Keyword(models.Model):
+    def __unicode__(self):
+        return self.keyword 
+    keyword = models.CharField(max_length=100, unique=True)
+
 
 class Snippet(models.Model):
     def __unicode__(self):
@@ -28,7 +33,7 @@ class Snippet(models.Model):
     )
 
     title = models.CharField(max_length=100, blank=True)
-    url = models.CharField(max_length=100, blank=True)
+    url = models.CharField(max_length=200, blank=True)
     text = models.TextField(max_length=1000, blank=True)
     media = models.CharField(max_length=100, blank=True)
     mediaType = models.CharField(max_length=1, choices=MEDIA_TYPES)
@@ -36,10 +41,19 @@ class Snippet(models.Model):
     last_viewed = models.DateTimeField('last viewed')
     width = models.CharField(max_length=2, blank=True)
     height = models.DecimalField(max_digits=5, decimal_places=0, blank=True)
+    keywords = models.ManyToManyField(Keyword)
 
-class Keyword(models.Model):
-    keyword = models.CharField(max_length=100)
 
-class SnippetKeywordLink(models.Model):
-    snippet = models.ForeignKey(Snippet)
-    keyword = models.ForeignKey(Keyword)
+
+
+# class SnippetKeywordLink(models.Model):
+#     def __unicode__(self):
+#         s = str(self.snippet)
+#         k = str(self.keyword)
+#         txt = s + ' :: ' + k
+#         return txt
+#     snippet = models.ForeignKey(Snippet)
+#     keyword = models.ForeignKey(Keyword)
+
+#class Car(models.Model):
+#    manufacturer = models.ForeignKey('production.Manufacturer')

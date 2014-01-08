@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}style.css">
     <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     {% block head %}{% endblock %}
 </head>
 
@@ -13,8 +14,13 @@
     <div id="header">
         <a class="button" href="/snippets/">Home</a>
         <a class="button" href="/snippets/add/">Add Snippet</a>
-        <a class="button" href="/snippets/">Random</a>
-        <a class="button" href="/snippets/">Something</a>
+        <a class="button" id="browse" href="/snippets/">Browse</a>
+        <div id="dropdownOptions">
+            {% for keyword in keywords %}
+                <a class="button" href="/snippets/q/{{ keyword }}/">{{ keyword }}</a>
+
+            {% endfor %}
+        </div>
     </div>
 
     <div id="content">

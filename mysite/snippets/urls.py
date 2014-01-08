@@ -29,15 +29,12 @@ urlpatterns = patterns('',
 
     url(r'^save/$', 'snippets.views.savesnippet', name='savenew'),
 
-    url(r'^edit/(?P<pk>\d+)/$',
-    DetailView.as_view(
-        model=Snippet,
-        template_name='snippets/add.html')),
+    url(r'^edit/(?P<pk>\d+)/$', 'snippets.views.editsnippet', name='edit'),
 
     url(r'^delete/$', 'snippets.views.deletesnippet', name='delete'),
 
-    url(r'^view/(?P<pk>\d+)/$',
-    DetailView.as_view(
-        model=Snippet,
-        template_name='snippets/details.html')),
-)
+    url(r'^view/(?P<pk>\d+)/$', 'snippets.views.viewsnippet', name='view'),
+
+    url(r'^q/(?P<query>.+)/$', 'snippets.views.query', name='query'),
+
+    )
