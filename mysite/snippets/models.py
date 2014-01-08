@@ -32,16 +32,22 @@ class Snippet(models.Model):
         ('2', 'Youtube'),
     )
 
+    WIDTHS = (
+        ('w0', 'Single Column'),
+        ('w1', 'Double Column'),
+        ('w2', 'Quad Column'),
+    )
+
     title = models.CharField(max_length=100, blank=True)
     url = models.CharField(max_length=200, blank=True)
     text = models.TextField(max_length=1000, blank=True)
     media = models.CharField(max_length=100, blank=True)
-    mediaType = models.CharField(max_length=1, choices=MEDIA_TYPES)
+    mediaType = models.CharField(max_length=1, choices=MEDIA_TYPES, blank=True)
     date_added = models.DateTimeField('date added')
     last_viewed = models.DateTimeField('last viewed')
-    width = models.CharField(max_length=2, blank=True)
+    width = models.CharField(max_length=2, blank=True, choices=WIDTHS)
     height = models.DecimalField(max_digits=5, decimal_places=0, blank=True)
-    keywords = models.ManyToManyField(Keyword)
+    keywords = models.ManyToManyField(Keyword, blank=True)
 
 
 

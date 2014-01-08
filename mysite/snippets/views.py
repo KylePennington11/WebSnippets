@@ -58,11 +58,14 @@ def savesnippet(request, pk=0):
                 mediaType = mediaDict['mediaType'],
                 date_added = datetime.datetime.now(),
                 last_viewed = datetime.datetime.now(),
-                width = 'w1',
+                width = 'w0',
                 height = 100)
 
     if request.POST['title'] == '' and request.POST['text'] == '' and request.POST['media'] != '':
         e.width = 'w0'
+
+    if mediaDict['mediaType'] == '2':
+        e.width = 'w1'
 
     if pk != 0:
         s = get_object_or_404(Snippet, pk=pk)

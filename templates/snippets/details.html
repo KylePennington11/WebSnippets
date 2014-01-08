@@ -38,7 +38,7 @@
     
     <div class="keywords">
     {% for keyword in snippet.keywords.all %}       
-        {{ keyword }}
+        <a href="/snippets/q/{{ keyword }}/">{{ keyword }}</a>
         {% if not forloop.last %} | {% endif %}     
     {% endfor %}
     </div>

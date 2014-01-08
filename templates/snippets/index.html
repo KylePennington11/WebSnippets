@@ -1,9 +1,9 @@
 {% extends "snippets/base.html" %}
 
 {% block head %}
-<script type="text/javascript" src="{{ STATIC_URL }}masonry.pkgd.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}imagesloaded.pkgd.min.js"></script>
-<script type="text/javascript" src="{{ STATIC_URL }}infinite-scroll.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/masonry.pkgd.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/infinite-scroll.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -34,7 +34,7 @@
                             {% endif %}
 
                             {% if snippet.text != ''%}
-                                {{ snippet.text|linebreaks|truncatewords:60 }}
+                                {{ snippet.text|truncatewords:60|linebreaks }}
                             {% endif %}
                         </div>
                     {% endif %}
@@ -50,6 +50,7 @@
         <a href="./{{ nextpage }}/"></a>
     </nav>
 
+    <a href="#" class="back-to-top">Back to Top</a>
 
 
     <script>
@@ -69,7 +70,7 @@
               navSelector  : '#page-nav',    // selector for the paged navigation 
               nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
               itemSelector : '.snippetbox',     // selector for all items you'll retrieve
-              bufferPx: 500,
+              bufferPx: 2000,
               loading: {
                   finishedMsg: 'No more pages to load.',
                   img: 'http://i.imgur.com/6RMhx.gif'
@@ -88,6 +89,25 @@
               }
             );
             
+        });
+
+
+        jQuery(document).ready(function() {
+            var offset = 220;
+            var duration = 500;
+            jQuery(window).scroll(function() {
+                if (jQuery(this).scrollTop() > offset) {
+                    jQuery('.back-to-top').fadeIn(duration);
+                } else {
+                    jQuery('.back-to-top').fadeOut(duration);
+                }
+            });
+            
+            jQuery('.back-to-top').click(function(event) {
+                event.preventDefault();
+                jQuery('html, body').animate({scrollTop: 0}, duration);
+                return false;
+            })
         });
     </script>
 

@@ -1,5 +1,14 @@
-from snippets.models import Snippet,Keyword
+
 from django.contrib import admin
+from snippets.models import Snippet, Keyword
+
+class SnippetAdmin(admin.ModelAdmin):
+    fields = ['text', 'url']
+    list_dispslay = ('text', 'url')
+
+
+admin.site.register(Snippet, site=SnippetAdmin)
+admin.site.register(Keyword, site=SnippetAdmin)
 
 # class ChoiceInline(admin.TabularInline):
 #     model = Choice
@@ -19,10 +28,19 @@ from django.contrib import admin
 
 # admin.site.register(Poll, PollAdmin)
 
-class SnippetAdmin(admin.ModelAdmin):
-    fields = ['title', 'url', 'text', 'media', 'mediaType', 'date_added', 'last_viewed', 'width','height',],['keyword']
-    list_display = ('pk','title', 'media', 'mediaType', 'url', 'width', 'height','date_added')
-    save_as = True
+def make_singlecolumn(modeladmin, request, queryset):
+    queryset.update(width='w0')
+make_singlecolumn.short_description = "Change width to single column."
+
+# class SnippetAdmin(admin.ModelAdmin):
+#     fields = ['title', 'url', 'text', 'media', 'mediaType', 'date_added', 'last_viewed', 'width','height']
+#     list_display = ('title', 'media', 'mediaType', 'url', 'width', 'height','date_added')
+#     save_as = True
+#     search_fields = ['title']
+#     actions = [make_singlecolumn]
+
+# class SnippetAdmin2(admin.ModelAdmin):
+#     fields = ['title']
+#     list_display = ('title')
 
 
-admin.site.register([Snippet, Keyword], site=SnippetAdmin)
